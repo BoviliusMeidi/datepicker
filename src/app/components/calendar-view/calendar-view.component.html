@@ -51,11 +51,10 @@
         </div>
       </div>
     </div>
-
     <div class="months-view" *ngIf="viewMode() === 'months'">
       <div class="grid-3x4">
         <div class="grid-item" *ngFor="let m of monthNames; let i = index" [class.selected]="i === currentMonth()"
-          (click)="selectMonth(i)">
+          [class.active]="isMonthActive(i)" [class.range]="isMonthInRange(i)" (click)="selectMonth(i)">
           {{m}}
         </div>
       </div>

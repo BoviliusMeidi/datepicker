@@ -14,6 +14,7 @@
   --border-color: #cccccc;
 
   --shadow-color: rgba(0, 0, 0, 0.15);
+
   --radius-main: 10px;
   --radius-item: 6px;
   --radius-btn: 14px;
@@ -27,15 +28,17 @@
   min-width: 240px;
   height: 42px;
   padding: 0 12px;
+
   background-color: var(--bg-main);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-item);
   color: var(--text-main);
   font-size: 14px;
   font-family: inherit;
+
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
   outline: none;
+  transition: all 0.2s ease-in-out;
 }
 
 .trigger-btn:hover {
@@ -74,23 +77,25 @@
 
 .calendar {
   position: absolute;
-  z-index: 1000;
   top: 100%;
   left: 0;
+  z-index: 1000;
   margin-top: 8px;
-  background-color: var(--bg-main);
-  box-shadow: 0 4px 20px var(--shadow-color);
-  border-radius: var(--radius-main);
-  padding: 32px;
+
   width: 320px;
+  padding: 32px;
+
+  background-color: var(--bg-main);
+  border-radius: var(--radius-main);
+  box-shadow: 0 4px 20px var(--shadow-color);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
   height: 40px;
+  margin-bottom: 16px;
 }
 
 .header-titles {
@@ -108,15 +113,16 @@
 
 .title-btn {
   width: 100%;
+  padding: 5px 8px;
   background: transparent;
   border: none;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 5px 8px;
   border-radius: var(--radius-item);
+
   color: var(--text-main);
   font-size: 14px;
   font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .title-btn:hover {
@@ -130,17 +136,19 @@
 }
 
 .nav-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  color: var(--text-secondary);
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
   display: flex;
-  margin-bottom: 4px;
   align-items: center;
   justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 4px;
+
+  background: none;
+  border: none;
+
+  color: var(--text-secondary);
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .nav-btn:hover {
@@ -157,13 +165,14 @@
 .day-name {
   display: flex;
   align-items: center;
-  text-align: center;
   justify-content: center;
   height: 40px;
   width: 40px;
+
   font-size: 13px;
   font-weight: 600;
   color: var(--text-muted);
+  text-align: center;
 }
 
 .days-grid {
@@ -173,36 +182,25 @@
 }
 
 .day-item {
-  height: 40px;
-  width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  border-radius: var(--radius-item);
-  font-size: 13px;
-  color: var(--text-main);
+  height: 40px;
+  width: 40px;
   margin-bottom: 6px;
+
+  border-radius: var(--radius-item);
+  color: var(--text-main);
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.day-item:nth-last-child(-n+7){
+.day-item:nth-last-child(-n + 7) {
   margin-bottom: 0;
 }
 
 .day-item:hover {
   background-color: var(--bg-hover);
-}
-
-.active {
-   box-shadow: 0 4px 20px var(--shadow-color);
-  background-color: var(--primary-color) !important;
-  color: var(--text-on-primary) !important;
-}
-
-.range {
-  background-color: var(--primary-light);
-  color: var(--primary-color);
-  border-radius: var(--radius-item);
 }
 
 .other-month {
@@ -215,30 +213,74 @@
   color: var(--text-disabled);
 }
 
-.grid-3x4, .grid-4x4 {
+.day-item.active {
+  background-color: var(--primary-color) !important;
+  color: var(--text-on-primary) !important;
+  box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.day-item.range {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-radius: var(--radius-item);
+}
+
+.grid-3x4,
+.grid-4x4 {
   display: grid;
   gap: 10px;
   height: 220px;
 }
 
-.grid-3x4 { grid-template-columns: repeat(3, 1fr); }
-.grid-4x4 { grid-template-columns: repeat(4, 1fr); }
+.grid-3x4 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-4x4 {
+  grid-template-columns: repeat(4, 1fr);
+}
 
 .grid-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  border-radius: var(--radius-btn);
-  font-size: 16px;
+
   background: var(--bg-main);
+  border-radius: var(--radius-btn);
+
   color: var(--primary-color);
+  font-size: 16px;
+  cursor: pointer;
 }
 
 .grid-item.selected {
   background-color: var(--primary-color);
   color: var(--text-on-primary);
   font-weight: bold;
+}
+
+.grid-item.active {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  border: none;
+}
+
+.grid-item.range {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+  border-radius: var(--radius-item);
+}
+
+.grid-item.selected:not(.active):not(.range) {
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.grid-item.selected.active {
+  background-color: var(--primary-color);
+  color: #fff;
 }
 
 .disabled {

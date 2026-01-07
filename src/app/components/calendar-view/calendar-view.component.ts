@@ -173,6 +173,33 @@ export class CalendarViewComponent implements OnChanges {
     return Array.from({ length: 16 }, (_, i) => startYear + i);
   });
 
+  isMonthActive(monthIndex: number): boolean {
+    const currentY = this.currentYear();
+    const s = this.startDate();
+    const e = this.endDate();
+
+    if (s && s.month === monthIndex && s.year === currentY) return true;
+    if (this.mode === 'range' && e && e.month === monthIndex && e.year === currentY) return true;
+    if (this.mode === 'single' && s && s.month === monthIndex && s.year === currentY) return true;
+
+    return false;
+  }
+
+  isMonthInRange(monthIndex: number): boolean {
+    if (this.mode === 'single') return false;
+
+    const s = this.startDate();
+    const e = this.endDate();
+
+    if (!s || !e) return false;
+
+    const currentAbs = this.currentYear() * 12 + monthIndex;
+    const startAbs = s.year * 12 + s.month;
+    const endAbs = e.year * 12 + e.month;
+
+    return currentAbs > startAbs && currentAbs < endAbs;
+  }
+
   toggleCalendar() {
     this.isOpen.update((v) => !v);
     if (this.isOpen()) this.viewMode.set('days');
