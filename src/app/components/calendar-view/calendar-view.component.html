@@ -1,0 +1,73 @@
+<div class="calendar-container">
+  <button class="trigger-btn" (click)="toggleCalendar()">
+    <span *ngIf="!displayText()" class="placeholder-text">
+      {{ placeholder }}
+    </span>
+
+    <span *ngIf="displayText()">
+      {{ displayText() }}
+    </span>
+  </button>
+
+  <div class="calendar" *ngIf="isOpen()">
+    <div class="header">
+      <button class="nav-btn" (click)="navigate(-1)">‹</button>
+      <div class="header-titles">
+        <span *ngIf="viewMode() === 'years'" class="title-static">
+          {{ yearsList()[0] }} - {{ yearsList()[yearsList().length - 1] }}
+        </span>
+
+        <span *ngIf="viewMode() === 'months'" class="title-static">
+          {{ currentYear() }}
+        </span>
+
+        <ng-container *ngIf="viewMode() === 'days'">
+          <div class="split-btns">
+            <button class="title-btn" (click)="setViewMode('months')">
+              {{ monthNames[currentMonth()] }}
+            </button>
+          </div>
+          <div class="split-btns">
+            <button class="title-btn" (click)="setViewMode('years')">
+              {{ currentYear() }}
+            </button>
+          </div>
+        </ng-container>
+      </div>
+
+      <button class="nav-btn" (click)="navigate(1)">›</button>
+    </div>
+
+    <div class="days-view" *ngIf="viewMode() === 'days'">
+      <div class="days-grid-head">
+        <div class="day-name" *ngFor="let d of dayNames">{{ d }}</div>
+      </div>
+
+      <div class="days-grid">
+        <div class="day-item" *ngFor="let item of days()" [class.other-month]="!item.isCurrentMonth"
+          [class.disabled]="item.isDisabled" (click)="selectDate(item)" [class.active]="isActive(item)"
+          [class.range]="isInRange(item)">
+          {{ item.value }}
+        </div>
+      </div>
+    </div>
+
+    <div class="months-view" *ngIf="viewMode() === 'months'">
+      <div class="grid-3x4">
+        <div class="grid-item" *ngFor="let m of monthNames; let i = index" [class.selected]="i === currentMonth()"
+          (click)="selectMonth(i)">
+          {{m}}
+        </div>
+      </div>
+    </div>
+
+    <div class="years-view" *ngIf="viewMode() === 'years'">
+      <div class="grid-4x4">
+        <div class="grid-item" *ngFor="let y of yearsList()" [class.selected]="y === currentYear()"
+          (click)="selectYear(y)">
+          {{ y }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
