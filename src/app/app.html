@@ -30,8 +30,7 @@
   <div class="section-pane section-pane--padded">
     <div class="form-group">
       <label>(dd/mm/yyyy - dd/mm/yyyy):</label>
-      <input type="text" [(ngModel)]="userDateInput" class="form-input"
-        placeholder="Contoh: 01/01/2026 - 05/01/2026">
+      <input type="text" [(ngModel)]="userDateInput" class="form-input" placeholder="Contoh: 01/01/2026 - 05/01/2026">
     </div>
 
     <div class="form-group">
@@ -65,6 +64,14 @@
 
   </div>
 
+  <div>
+    <app-file-upload accept=".PDF, .DOCX" [maxSizeMB]="10">
+    </app-file-upload>
+  </div>
+  <div>
+    <app-file-upload [multiple]="true" [maxFiles]="3" [maxSizeMB]="2" accept=".PDF">
+    </app-file-upload>
+  </div>
 </div>
 
 <router-outlet></router-outlet>

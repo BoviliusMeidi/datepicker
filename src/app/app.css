@@ -45,6 +45,14 @@ label {
   margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
+
 .section-pane {
   background: var(--bg-card);
   padding: 1.5rem;

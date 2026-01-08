@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
 import { CalendarSelection } from './components/calendar-view/calendar-view.component';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule, CommonModule, RouterOutlet, CalendarViewComponent],
+  imports: [FormsModule, CommonModule, RouterOutlet, CalendarViewComponent, FileUploadComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -48,7 +49,7 @@ export class App {
   onMinLimitChange(selection: CalendarSelection) {
     this.minLimitStr = selection.formattedValue;
     this.validateMainRange();
-    console.log(this.minLimitStr)
+    console.log(this.minLimitStr);
   }
 
   onMaxLimitChange(selection: CalendarSelection) {
@@ -64,5 +65,13 @@ export class App {
     if (this.mainRangeStr) {
       this.mainRangeStr = '';
     }
+  }
+
+  onProfilePicSelected(files: File[]) {
+    console.log('File dipilih:', files[0]);
+  }
+
+  onDocumentsSelected(files: File[]) {
+    console.log('File dipilih:', files);
   }
 }
