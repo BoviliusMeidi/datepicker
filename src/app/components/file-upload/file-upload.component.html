@@ -1,47 +1,7 @@
 <div class="upload-container">
 
-  <div class="drop-zone" [class.active]="isDragging()" [class.error-border]="errors().length > 0" tabindex="0"
-    role="button" aria-label="Upload area" (click)="fileInput.click()" (keydown.enter)="fileInput.click()"
-    (keydown.space)="fileInput.click()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
-    (drop)="onDrop($event)">
-
-    <input #fileInput type="file" [accept]="accept()" [multiple]="multiple()" (change)="onFileSelected($event)" hidden>
-
-    <div class="drop-content">
-      <!-- ICON -->
-      <div class="icon-wrapper">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-          stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-        </svg>
-      </div>
-
-      <!-- Title Section -->
-      <span class="text-title">{{ title() }}</span>
-
-      <!-- Action Section -->
-      <div class="text-wrapper">
-        <span class="drag-text">{{ label() }}</span>
-        <button type="button" class="browse-btn" tabindex="-1">{{ btnLabel() }}</button>
-      </div>
-
-      <!-- Criteria Section -->
-      <div class="criteria-text">
-        <span>Support: {{ accept() === '*' ? 'Semua' : accept() }}</span>
-        <span class="divide">|</span>
-        <span>Maks. Ukuran {{ maxSizeMB() }}MB</span>
-        @if (multiple() && maxFiles()) {
-        <span class="divide">|</span>
-        <span>Maks. {{ maxFiles() }} File</span>
-        }
-      </div>
-    </div>
-  </div>
-
-  <!-- ERROR -->
   @if (errors().length > 0) {
-  <div class="error-container">
+  <div class="error-container" style="padding-bottom: 6px;">
     @for (err of errors(); track err) {
     <div class="error-item">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="error-icon">
@@ -55,19 +15,75 @@
   </div>
   }
 
-  <!-- LIST IF > 1 FILE -->
+  <div class="drop-zone" [class.active]="isDragging()" [class.error-border]="errors().length > 0"
+    [class.disabled]="isDisabled()" [attr.tabindex]="isDisabled() ? -1 : 0" role="button" aria-label="Upload area"
+    (click)="!isDisabled() && fileInput.click()" (keydown.enter)="!isDisabled() && fileInput.click()"
+    (keydown.space)="!isDisabled() && fileInput.click()" (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+
+    <input #fileInput type="file" [accept]="accept()" [multiple]="multiple()" (change)="onFileSelected($event)" hidden>
+
+    <div class="drop-content">
+      <div class="icon-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+        </svg>
+      </div>
+
+      <span class="text-title">{{ title() }}</span>
+
+      <div class="text-wrapper">
+        <span class="drag-text">{{ label() }}</span>
+        <button type="button" class="browse-btn" tabindex="-1">{{ btnLabel() }}</button>
+      </div>
+
+      <div class="criteria-text">
+        <span>Support: {{ accept() === '*' ? 'Semua' : accept() }}</span>
+        <span class="divide">|</span>
+        <span>Maks. Ukuran {{ maxSizeMB() }}MB</span>
+        @if (multiple() && maxFiles()) {
+        <span class="divide">|</span>
+        <span>Maks. {{ maxFiles() }} File</span>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (queue().length > 0) {
+  <div class="file-list">
+    @for (item of queue(); track item.id) {
+    <div class="file-item loading-item">
+      <div class="file-info">
+        <svg class="spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+          </path>
+        </svg>
+        <div class="file-details">
+          <span class="file-name">{{ getFileNameWithoutExt(item.file.name) }}</span>
+          <span class="file-status">Memproses...</span>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  }
+
   @if (files().length > 0) {
   <div class="file-list">
     @for (file of files(); track file.name; let i = $index) {
     <div class="file-item">
       <div class="file-info">
-        <svg class="file-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg class="file-icon text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <div class="file-details">
-          <span class="file-name">{{ file.name }}</span>
-          <span class="file-size">{{ formatSize(file.size) }}</span>
+          <span class="file-name">{{ getFileNameWithoutExt(file.name) }}</span>
         </div>
       </div>
       <button class="remove-btn" (click)="removeFile(i, $event)" title="Hapus file">
